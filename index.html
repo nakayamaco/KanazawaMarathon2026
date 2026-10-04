@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>アンチドーピング&ウェルビーイング クイズ｜スポーツファーマシスト監修</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap">
+<style>
+:root{
+  --bg:#f7f3ea; --paper:#ffffff; --ink:#241d12; --sub:#5c5240;
+  --navy:#8a6214; --navy-d:#4a3209; --coral:#b4203a; --tint:#f1e6c9; --line:#e0d2a8;
+  --ok:#1f7a5c; --ng:#b5472f; --okbg:#e2f0e8; --ngbg:#fbe9e3;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#171209; --paper:#241c0f; --ink:#f2ead6; --sub:#c4b48c;
+    --navy:#d9ab3f; --navy-d:#3b2a08; --coral:#e2697a; --tint:#352711; --line:#4a3a1c;
+    --ok:#4cc296; --ng:#f0937b; --okbg:#2a3a2e; --ngbg:#3a2620;
+  }
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",Meiryo,sans-serif;
+  line-height:1.7;font-size:17px;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.wrap{max-width:640px;margin:0 auto;background:var(--paper);min-height:100%}
+header{background:var(--navy-d);color:#fff;padding:22px 24px 18px;border-bottom:6px solid var(--coral)}
+header p{margin:0;font-size:.82rem;opacity:.9}
+header h1{margin:4px 0 0;font-size:1.55rem;font-weight:900;line-height:1.35}
+main{padding:24px}
+
+/* round indicator */
+.rounds{display:flex;gap:8px;margin-bottom:18px}
+.rdot{flex:1;height:8px;border-radius:4px;background:var(--tint)}
+.rdot.done{background:var(--navy)}
+.rdot.now{background:var(--coral)}
+
+.bar{height:6px;background:var(--tint);border-radius:3px;overflow:hidden;margin-bottom:6px}
+.bar i{display:block;height:100%;width:0;background:var(--navy);transition:width .3s}
+.count{font-size:.85rem;color:var(--sub);margin:0 0 18px;display:flex;justify-content:space-between}
+.tag{display:inline-block;font-size:.72rem;font-weight:700;padding:3px 9px;border-radius:999px;margin-bottom:10px}
+.tag.doping{background:#f1e2b8;color:var(--navy-d)}
+.tag.well{background:#fde9e1;color:var(--coral)}
+@media (prefers-color-scheme: dark){
+  .tag.doping{background:#4a3a14;color:var(--navy)}
+  .tag.well{background:#3a2419}
+}
+
+h2{font-size:1.2rem;line-height:1.55;margin:0 0 18px;font-weight:700}
+.opts{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.opt{width:100%;text-align:left;font:inherit;color:var(--ink);background:var(--paper);
+  border:2px solid var(--line);border-radius:8px;padding:14px 16px;cursor:pointer}
+.opt:hover:not(:disabled){border-color:var(--navy)}
+.opt:focus-visible,.btn:focus-visible,.link:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
+.opt:disabled{cursor:default}
+.opt.ok{border-color:var(--ok);background:var(--okbg);font-weight:700}
+.opt.ng{border-color:var(--ng);background:var(--ngbg)}
+.link{background:none;border:0;padding:0;margin:14px 0 0;font:inherit;font-size:.9rem;color:var(--navy);text-decoration:underline;cursor:pointer}
+.hint{margin:10px 0 0;font-size:.92rem;color:var(--sub)}
+.fb{margin-top:20px;padding:14px 16px;border-radius:8px;border-left:6px solid var(--ok);background:var(--okbg)}
+.fb.ng{border-left-color:var(--ng);background:var(--ngbg)}
+.fb strong{display:block;font-size:1.05rem;margin-bottom:2px}
+.fb p{margin:0;font-size:.95rem}
+.btn{display:block;width:100%;margin-top:18px;font:inherit;font-weight:700;font-size:1.05rem;
+  color:#fff;background:var(--navy-d);border:0;border-radius:8px;padding:14px;cursor:pointer}
+.btn.alt{background:var(--paper);color:var(--navy);border:2px solid var(--navy)}
+[hidden]{display:none!important}
+
+.result{text-align:center}
+.result h2{font-size:1.3rem}
+.score{font-size:3.2rem;font-weight:900;color:var(--navy);line-height:1.2;margin:4px 0 0}
+.score small{font-size:1.2rem;color:var(--sub);font-weight:500}
+.msg{font-size:1rem;margin:6px 0 18px}
+.roundlist{text-align:left;background:var(--tint);border-radius:8px;padding:14px 16px;font-size:.9rem;margin-bottom:6px}
+.roundlist div{display:flex;justify-content:space-between;padding:3px 0}
+
+.final .info{text-align:left;background:var(--tint);border-radius:8px;padding:14px 16px;font-size:.92rem;margin-top:8px}
+.final .info p{margin:0 0 4px}
+footer{padding:0 24px 24px;font-size:.78rem;color:var(--sub)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p>スポーツファーマシスト監修｜金沢マラソン2026 参加者向け</p>
+    <h1>アンチドーピング &amp; ウェルビーイング クイズ</h1>
+  </header>
+
+  <main>
+    <section id="quiz">
+      <div class="bar" aria-hidden="true"><i id="prog"></i></div>
+      <p class="count"><span id="count"></span><span id="roundlabel"></span></p>
+      <p class="tag" id="tag"></p>
+      <h2 id="q"></h2>
+      <ul class="opts" id="opts"></ul>
+      <button class="link" id="hintBtn" type="button">ヒントを見る</button>
+      <p class="hint" id="hint" hidden></p>
+      <div id="fb" role="status" aria-live="polite" hidden></div>
+      <button class="btn" id="next" type="button" hidden></button>
+    </section>
+
+    <section id="roundResult" class="result" hidden>
+      <h2 id="rTitle"></h2>
+      <p class="score"><span id="rSc"></span><small> / 3問</small></p>
+      <p class="msg" id="rMsg"></p>
+      <button class="btn" id="toNext" type="button"></button>
+    </section>
+
+    <section id="final" class="result final" hidden>
+      <p>あなたの結果</p>
+      <p class="score"><span id="fSc"></span><small> / 3問</small></p>
+      <p class="msg" id="fMsg"></p>
+      <div class="info">
+        <p><strong>迷ったときは「アスリート・ハンドブック」やJADAの globalDRO、または大会救護・薬剤師ブースで確認を。</strong></p>
+        <p>サプリメントや市販薬は、成分表示だけで安全と判断しないことが大切です。</p>
+      </div>
+      <button class="btn alt" id="retry" type="button">出題をシャッフルしてもう一度</button>
+    </section>
+  </main>
+
+  <footer>本クイズは一般的な知識の確認を目的としています。薬の使用や体調について不安がある場合は、医師・薬剤師・スポーツファーマシストにご相談ください。</footer>
+</div>
+
+<script>
+var POOL = [
+  {cat:"doping", q:"レース前に市販の風邪薬を使いたいとき、最初にすべきことは？",
+   o:["自己判断で、眠くならないものを選んで飲む","禁止物質が含まれていないか、薬剤師や専用サイトで確認する","匂いで強い薬かどうかを判断する"],a:1,
+   h:"確認できる窓口が国内にあります。",
+   e:"風邪薬にも禁止物質（一部の成分）が含まれることがあります。服用前に薬剤師やJADAの検索サイト「globalDRO」で確認しましょう。"},
+  {cat:"doping", q:"サプリメントとドーピングの関係について、正しいのはどれ？",
+   o:["「天然由来」と書かれていれば禁止物質の心配はない","パッケージに表示されていない禁止物質が混入していることがある","国産であれば成分を確認しなくてよい"],a:1,
+   h:"表示と中身が必ずしも一致しない製品があります。",
+   e:"サプリメントは医薬品ほど厳しい成分管理がされておらず、意図せず禁止物質が混入している例が報告されています。安易な使用は避けましょう。"},
+  {cat:"doping", q:"自分では気づかないまま禁止物質を摂取してしまうことを何と呼ぶ？",
+   o:["うっかりドーピング","ファストドーピング","ノーマルドーピング"],a:0,
+   h:"「うっかり」という言葉がそのまま使われています。",
+   e:"「うっかりドーピング」とは、本人に違反の意図がなくても、薬やサプリを通じて禁止物質を摂取してしまうことです。知らなかったでは済まされません。"},
+  {cat:"doping", q:"治療上どうしても禁止物質を含む薬が必要な場合に申請する制度は？",
+   o:["TUE（治療使用特例）","一般用医薬品切替制度","セルフメディケーション税制"],a:0,
+   h:"Therapeutic Use Exemption の略です。",
+   e:"持病の治療で禁止物質を含む薬がどうしても必要な場合、事前に申請して認められる「治療使用特例（TUE）」という制度があります。"},
+  {cat:"doping", q:"国内でアンチ・ドーピングについて相談できる機関は？",
+   o:["日本アンチ・ドーピング機構（JADA）","気象庁","消費者庁"],a:0,
+   h:"大会名にもよく使われる略称です。",
+   e:"JADA（日本アンチ・ドーピング機構）が、薬やサプリの確認方法、ルールなどの相談窓口になっています。"},
+  {cat:"well", q:"レース中の水分補給で、より適切なのはどれ？",
+   o:["のどが渇く前から、こまめに少しずつとる","のどが渇いてから、一気に大量にとる","給水所はできるだけスルーして我慢する"],a:0,
+   h:"渇きを感じてからでは少し遅いことがあります。",
+   e:"のどの渇きを感じる前から、少量ずつこまめに水分をとるのが基本です。一度に大量にとるのも、我慢しすぎるのもおすすめできません。"},
+  {cat:"well", q:"水分だけを大量にとり続けることで起こりやすい、低ナトリウム血症を防ぐ工夫は？",
+   o:["塩分（electrolyte）も一緒に補給する","水をできるだけ多く飲む","トイレを我慢して水分摂取を減らす"],a:0,
+   h:"汗と一緒に失われるのは水分だけではありません。",
+   e:"汗で失われるナトリウムを補わずに水だけを大量にとると、低ナトリウム血症（いわゆる水中毒）のリスクが高まります。経口補水液やスポーツドリンクで塩分も補いましょう。"},
+  {cat:"well", q:"レース前日の過ごし方として適切なのは？",
+   o:["消化のよい食事をとり、十分な睡眠をとる","試したことのない新しいサプリや食品を試す","準備で夜更かしをする"],a:0,
+   h:"「前日に新しいことを試さない」のは基本のひとつです。",
+   e:"前日は消化のよい食事と睡眠を優先し、新しい食品・サプリ・薬を試すのは避けましょう。体に合わなかった場合、当日に影響します。"},
+  {cat:"well", q:"練習不足の不安から、レース前に痛み止め（NSAIDs）を予防的に飲むことについて正しいのは？",
+   o:["積極的に多めに飲んでおくとよい","腎臓への負担や消化管への影響などから、予防的な使用は勧められない","水で流し込めば量は気にしなくてよい"],a:1,
+   h:"「痛みがないのに予防で飲む」ことのリスクを考えます。",
+   e:"NSAIDsを脱水状態の体で使うと、腎臓への負担が増すなどのリスクが知られています。痛みがない段階での予防的な服用は勧められません。"},
+  {cat:"well", q:"熱中症のサインとして注意すべき症状は？",
+   o:["めまい・立ちくらみ・吐き気","食欲が増す","いつもより元気になる"],a:0,
+   h:"体に「いつもと違う」サインが出ます。",
+   e:"めまい、立ちくらみ、吐き気、頭痛、まっすぐ歩けないなどは熱中症のサインです。感じたら無理をせず給水所や救護スタッフに声をかけましょう。"}
+];
+var ROUND_SIZE = 3, ROUNDS = 1;
+var order = [], ri = 0, qi = 0, score = 0, roundScores = [], done = false;
+
+function shuffle(arr){
+  arr = arr.slice();
+  for (var k = arr.length - 1; k > 0; k--){
+    var j = Math.floor(Math.random() * (k + 1));
+    var t = arr[k]; arr[k] = arr[j]; arr[j] = t;
+  }
+  return arr;
+}
+
+function setup(){
+  var idx = shuffle(POOL.map(function(_, n){return n}));
+  order = [];
+  for (var r = 0; r < ROUNDS; r++) order.push(idx.slice(r * ROUND_SIZE, r * ROUND_SIZE + ROUND_SIZE));
+  ri = 0; qi = 0; score = 0; roundScores = [0,0,0];
+  $('final').hidden = true; $('roundResult').hidden = true; $('quiz').hidden = false;
+  showQ();
+}
+var $ = function(id){return document.getElementById(id)};
+
+function showQ(){
+  var pIdx = order[ri][qi];
+  var d = POOL[pIdx];
+  done = false;
+  $('count').textContent = (qi + 1) + ' / ' + ROUND_SIZE + '問';
+  $('roundlabel').textContent = '';
+  $('prog').style.width = (qi / ROUND_SIZE * 100) + '%';
+  var tag = $('tag');
+  tag.textContent = d.cat === 'doping' ? 'アンチドーピング' : 'ウェルビーイング';
+  tag.className = 'tag ' + (d.cat === 'doping' ? 'doping' : 'well');
+  $('q').textContent = d.q;
+  $('hint').textContent = d.h;
+  $('hint').hidden = true;
+  $('hintBtn').hidden = false;
+  $('fb').hidden = true;
+  $('next').hidden = true;
+  var ul = $('opts'); ul.innerHTML = '';
+  var opts = shuffle(d.o.map(function(_, n){return n}));
+  opts.forEach(function(n){
+    var li = document.createElement('li');
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'opt'; b.textContent = d.o[n];
+    b.onclick = function(){ pick(b, n === d.a); };
+    li.appendChild(b); ul.appendChild(li);
+  });
+}
+
+function pick(btn, correct){
+  if (done) return;
+  done = true;
+  var pIdx = order[ri][qi];
+  var d = POOL[pIdx];
+  if (correct){ score++; roundScores[ri]++; }
+  var btns = $('opts').querySelectorAll('.opt');
+  btns.forEach(function(b){
+    b.disabled = true;
+    if (b.textContent === d.o[d.a]) b.classList.add('ok');
+  });
+  if (!correct) btn.classList.add('ng');
+  var fb = $('fb');
+  fb.className = 'fb' + (correct ? '' : ' ng');
+  fb.innerHTML = '<strong>' + (correct ? '正解です！' : 'おしい！') + '</strong><p></p>';
+  fb.querySelector('p').textContent = d.e;
+  fb.hidden = false;
+  $('hintBtn').hidden = true; $('hint').hidden = true;
+  var lastInRound = (qi === ROUND_SIZE - 1);
+  $('next').textContent = lastInRound ? (ROUNDS > 1 ? 'ラウンド結果を見る' : '結果を見る') : '次の問題へ';
+  $('next').hidden = false;
+  $('next').focus();
+}
+
+function afterQuestion(){
+  if (qi < ROUND_SIZE - 1){ qi++; showQ(); return; }
+  $('prog').style.width = '100%';
+  if (ROUNDS > 1) showRoundResult(); else showFinal();
+}
+
+function showRoundResult(){
+  $('quiz').hidden = true;
+  $('roundResult').hidden = false;
+  $('rTitle').textContent = '第' + (ri + 1) + 'ラウンド終了';
+  $('rSc').textContent = roundScores[ri];
+  var s = roundScores[ri];
+  $('rMsg').textContent = s === 3 ? '満点です！この調子で次のラウンドへ。'
+    : s >= 2 ? 'いい感じです。次のラウンドも挑戦しましょう。'
+    : '次のラウンドで確認していきましょう。';
+  var last = (ri === ROUNDS - 1);
+  $('toNext').textContent = last ? '最終結果を見る' : '第' + (ri + 2) + 'ラウンドへ進む';
+  window.scrollTo(0, 0);
+}
+
+function toNext(){
+  if (ri === ROUNDS - 1){ showFinal(); return; }
+  ri++; qi = 0;
+  $('roundResult').hidden = true; $('quiz').hidden = false;
+  drawRounds(); showQ();
+}
+
+function showFinal(){
+  $('quiz').hidden = true;
+  $('roundResult').hidden = true;
+  $('final').hidden = false;
+  $('fSc').textContent = score;
+  $('fMsg').textContent = score === 3 ? '満点です！アンチドーピングと体調管理の意識はばっちりです。'
+    : score === 2 ? 'よくできました。気になった問題は、ブースで薬剤師にも聞いてみてください。'
+    : '大丈夫、知っておけば防げることばかりです。レース前にもう一度確認しましょう。';
+  window.scrollTo(0, 0);
+}
+
+$('hintBtn').onclick = function(){ $('hint').hidden = false; $('hintBtn').hidden = true; };
+$('next').onclick = afterQuestion;
+$('toNext').onclick = toNext;
+$('retry').onclick = setup;
+setup();
+</script>
+</body>
+</html>
